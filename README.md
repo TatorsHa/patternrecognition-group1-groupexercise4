@@ -2,18 +2,24 @@
 
 ## Setup of the folders
 
--------------------------------------
---  data/
---      SignatureVerification/
---          enrollment/     <-- tsv with sample signatures, 5 per author 001-030
---          verification/   <-- tsv with to be tested signatures     
---
---  src/                    <-- folder for all subfunctions
---      data_formatting.py  <-- preparing the data for usage
---      dtw.py              <-- Implementation of the dtw algorithm 
---   
---  main.py                 <-- main executable
--------------------------------------
+```
+PatternRecog4/
+├─ data/
+│  └─ SignatureVerification/
+│     ├─ enrollment/        # TSVs with 5 genuine signatures per writer (001–030)
+│     │  ├─ 001-g-01.tsv
+│     │  ├─ 001-g-02.tsv
+│     │  └─ ...
+│     └─ verification/      # TSVs to be tested (genuine/forged)
+│
+├─ src/                     # Project modules
+│  ├─ data_formatting.py    # Load TSVs and compute features (x,y,vx,vy,pressure)
+│  └─ dtw.py                # DTW implementation (Sakoe–Chiba band)
+│
+├─ main.py                  # Demo/entry point
+├─ pyproject.toml           # Package metadata (editable install)
+└─ requirements.txt         # Python dependencies
+```
 
 ## todo
 - normalisation: the steps are already normalised in the data, i.e. every time step is 0.1 second. but the rest of data like the path moved could still be normalised, its just unclear to me what kind of normalisation would be best.
