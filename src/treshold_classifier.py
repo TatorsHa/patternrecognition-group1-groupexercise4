@@ -7,13 +7,14 @@ from src.dtw import to_feature_vectors, dtw_distance
 
 
 class TresholdClassifier:
-    def __init__(self, genuine_signatures_folder: np.array):
-        self.genuine_signatures = self.load_signatures(genuine_signatures_folder)
-
+    def __init__(self, genuine_signatures_folder: np.array, normalized=True):
         # computed by func computing_treshold on main
         # (mean 0 + mean 1) / 2 = 52914 not so efficient
         # Mean 1 ~ 30000 -> 35000 more balanced
-        self.treshold = 35000
+        self.treshold = 200 if normalized else 35000
+        self.normalize = normalized
+        
+        self.genuine_signatures = self.load_signatures(genuine_signatures_folder)
 
     def load_signatures(self, folder_path) -> dict:
         signatures = {}
@@ -23,7 +24,7 @@ class TresholdClassifier:
             if author_key not in signatures:
                 signatures[author_key] = []
 
-            feature = load_features_from_tsv(os.path.join(folder_path, f))
+            feature = load_features_from_tsv(os.path.join(folder_path, f), normalize=self.normalize)
             vectorized_feature = to_feature_vectors(feature)
             signatures[author_key].append(vectorized_feature)
 
@@ -40,7 +41,8 @@ class TresholdClassifier:
     def compute_distances(self, candidate_filename, candidate_folder):
         author = self.get_author(candidate_filename)
         candidate_feature = load_features_from_tsv(
-            os.path.join(candidate_folder, candidate_filename)
+            os.path.join(candidate_folder, candidate_filename),
+            normalize=self.normalize
         )
         vectorized_candidate = to_feature_vectors(candidate_feature)
 

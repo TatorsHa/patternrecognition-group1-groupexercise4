@@ -42,3 +42,8 @@ We then check if this distance fits into the average distance + standart deviati
 
 Maybe anyone has a better idea how to proceed with this?
 
+# Implementation choice
+
+# Results
+
+# Impact of normalization
