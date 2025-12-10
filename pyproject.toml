@@ -5,6 +5,11 @@ description = "Pattern Recognition Exercise 4"
 requires-python = ">=3.11"
 readme = "README.md"
 authors = [{ name = "Group 1" }]
+dependencies = [
+    "numpy>=2.3.5",
+    "scikit-learn>=1.8.0",
+    "tqdm>=4.67.1",
+]
 
 [tool.setuptools]
 py-modules = ["data_formatting"]

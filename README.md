@@ -23,7 +23,9 @@ PatternRecog4/
 
 ## Todo
 - Normalisation: The steps are already normalised in the data, i.e. every time step is 0.1 second. But the rest of data like the path moved could still be normalised, its just unclear to me what kind of normalisation would be best.
+
 - Predicting: Since im unsure how to proceed with actual predicting this is still open.
+ 1. First thing I will try a simple treshold on distance.
 
 
 ## Comments on how to proceed/open questions
