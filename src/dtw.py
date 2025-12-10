@@ -13,7 +13,7 @@ def dtw_distance(
     seq_a,
     seq_b,
     dist_fn=euclidean,
-    window=0,
+    window=None,
 ) -> float:
     """
     Compute DTW distance between two multivariate sequences.
@@ -26,6 +26,13 @@ def dtw_distance(
     # Failsafe for empty sequences
     if n == 0 or m == 0:
         return float("inf")
+    
+    # I add this to allow windows size to vary, otherwise if to sequence are not the same length,
+    # it distance explode to infinity
+    if window is None:
+        window = max(n, m) // 5
+
+    window = max(window, abs(n - m))
     
     # Initialize cost matrix with infinities
     inf = float("inf")

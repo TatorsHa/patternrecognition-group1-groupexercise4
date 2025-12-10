@@ -21,22 +21,23 @@ PatternRecog4/
 └─ requirements.txt         # Python dependencies
 ```
 
-## Todo
-- Normalisation: The steps are already normalised in the data, i.e. every time step is 0.1 second. But the rest of data like the path moved could still be normalised, its just unclear to me what kind of normalisation would be best.
-- Predicting: Since im unsure how to proceed with actual predicting this is still open.
+# Implementation choice
+In a first time, we implement a simple DTW logic with a simple treshold classifier (compare the candidate with the genuine, take the minimum distance compare to the five genuine, if the distance is greather than the threshold classified as forgery instead genuine). In a second time, because the threshold classifier classify in an acceptable accuracy, we tried to implement a normalization to see how much it improve the model.
 
+## Improvement
+All the code is in "basic" python, a reimplementation using numpy, can speedup the whole system. 
 
-## Comments on how to proceed/open questions
+The code is not as clean as wanted especially because it use class instead of staying the whole time in vectors. A lot of computation can be avoided with a rewriting of the prototype.
 
-The dtw algorithm compares **two** time dependant sequences and return a distance between them. The question is how do we use this to compare different signatures. There are 30 different authors, i currently think we can only do them one by one, otherwise we mess up with normalisation (maybe someone has an idea about that). 
+# Results
+_Excuse the plot it's ai generated_
+## No normalisation
+![No normalization](./class.png)
 
-My current ideas:
+## Normalisation
+![Normalized](./class_normalized.png)
 
-1. Compute pairwise DTW distances between the 5 genuine signatures. This will give us 25 dtw distances. These can then be used to compute an average distance and standart variation to each other.<br><br>
-For each test-signatures test compute all the dtw distances to the 5 genuine signatures, which gives us 5 distances. these need to be combined into a single score, f.e. avarage of the k (2-3) closest distances.<br><br>
-We then check if this distance fits into the average distance + standart deviation. While this might work i think we are either going to have tons of false negative or false positives.
+## Discussion
+As we can see in the results the normalisation permit to improve a bin the accuracy and F1 score. It's not exclude because of empiric caractere of the threshold that's it's only luck. 
 
-2. Work with a knn, this probably doesnt work as we lack samples per writer and since we end up with only one center it would say genuine to all of them. So i discarded this for idea for the moment.
-
-Maybe anyone has a better idea how to proceed with this?
-
+An interesting fact is that the model capture close to 90% of the genuine signature against 68% for the non normalized version. In contrast, the precision decrease a little, meaning we accept some more forgeries signature as genuine. This problem can be probably balanced with a little bit of finetuning or another classifier.
