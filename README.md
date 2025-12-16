@@ -15,6 +15,7 @@ PatternRecog4/
 ├─ src/                     # Project modules
 │  ├─ data_formatting.py    # Load TSVs and compute features (x,y,vx,vy,pressure)
 │  └─ dtw.py                # DTW implementation (Sakoe–Chiba band)
+│  └─ treshold_classifier.py# Threshold-based verifier
 │
 ├─ main.py                  # Demo/entry point
 ├─ pyproject.toml           # Package metadata (editable install)
@@ -22,12 +23,14 @@ PatternRecog4/
 ```
 
 # Implementation choice
-We implemented a simple DTW-based approach combined with a threshold classifier. The method compares a candidate sample with genuine samples, takes the minimum distance among the five genuine references, and classifies the sample as a forgery if this distance is greater than a predefined threshold, if not it is classified as genuine.<br><br> In a second step, since the threshold classifier achieved acceptable accuracy, we introduced a normalization step to evaluate how much it could further improve the model’s performance.
+We implemented a simple DTW-based approach combined with a threshold classifier. The method compares a candidate sample with genuine samples, takes the minimum distance among the five genuine references, and classifies the sample as a forgery if this distance is greater than a predefined threshold. Otherwise, it is classified as genuine.
+
+In addition, we evaluated the impact of per-signature normalization to assess how much it improves the model’s performance compared to the non-normalized setting.
 
 ## Improvement
-All the code is in "basic" python, a reimplementation using numpy, can speedup the whole system. 
+Performance could be improved by vectorizing parts of the DTW computation or by using optimized numerical libraries. In the current implementation, DTW relies on nested Python loops, which leads to high computational cost when processing many signature comparisons.
 
-The code is not as clean as wanted especially because it use class instead of staying the whole time in vectors. A lot of computation can be avoided with a rewriting of the prototype.
+The code is not as clean as desired and mainly serves as a prototype. Some computations could be avoided or simplified with a refactoring of the pipeline.
 
 # Results
 
